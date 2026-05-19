@@ -1,0 +1,60 @@
+.publication-title {
+  font-family: "Google Sans", Verdana, sans-serif;
+}
+
+.publication-authors {
+  font-family: "Google Sans", Verdana, sans-serif;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.eql-cntrb {
+  font-size: smaller;
+}
+
+.hero-body {
+  padding-bottom: 2rem;
+}
+
+section {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.placeholder-box {
+  background: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 60px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+  margin: 1rem 0;
+}
+
+.placeholder-box .icon-large {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.comparison-grid .placeholder-box {
+  padding: 40px 15px;
+}
+
+@media (max-width: 768px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}

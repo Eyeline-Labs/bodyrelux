@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="BodyReLux: Temporally Consistent Full-Body Video Relighting">
+    <meta property="og:title" content="BodyReLux: Temporally Consistent Full-Body Video Relighting" />
+    <meta property="og:description"
+        content="A subject-specific video diffusion-based framework for relighting full-body human performances in a temporally consistent way." />
+    <!-- Optimal dimensions: 1200x630 -->
+    <meta property="og:image" content="static/images/og_banner.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BodyReLux: Temporally Consistent Full-Body Video Relighting">
+    <meta name="twitter:description"
+        content="A subject-specific video diffusion-based framework for relighting full-body human performances in a temporally consistent way.">
+    <meta name="twitter:image" content="static/images/og_banner.jpg">
+
+    <meta name="keywords"
+        content="BodyReLux, video relighting, full-body relighting, video diffusion model, OLAT, temporal consistency, SIGGRAPH 2026, human performance relighting">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BodyReLux</title>
+    <link rel="stylesheet" href="static/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link rel="stylesheet" href="static/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+</head>
+
+<body>
+
+    <!-- Title / Hero -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title" style="font-size: 46px;">Body<span style="color: #c25b56;">R</span><span style="color: #d4a054;">e</span><span style="color: #7ea87e;">L</span><span style="color: #5b8fb9;">u</span><span style="color: #8b7bb5;">x</span>: </h1>
+                        <h3 class="title is-3 publication-title" style="font-size: 30px; margin-top: -20px;">
+                            Temporally Consistent Full-Body Video Relighting
+                        </h3>
+                        <a href="https://s2026.siggraph.org/" target="_blank">
+                            <img src="static/images/siggraph2026_logo.png" alt="SIGGRAPH 2026, Los Angeles" style="height: 40px;">
+                        </a>
+                        <br><br>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block"><a href="https://limacv.github.io/homepage/">Li Ma</a>,</span>
+                            <span class="author-block"><a href="https://mingminghe.com/">Mingming He</a>,</span>
+                            <span class="author-block"><a href="https://yu.xueming.org">Xueming Yu</a>,</span>
+                            <span class="author-block"><a href="https://www.linkedin.com/in/david-george-90703-ca/">David M. George</a>,</span>
+                            <span class="author-block"><a href="https://leventtasel.com">Ahmet Levent Taşel</a>,</span>
+                            <br>
+                            <span class="author-block"><a href="https://www.pauldebevec.com">Paul Debevec</a>,</span>
+                            <span class="author-block"><a href="https://julienphilip.com">Julien Philip</a></span>
+                        </div>
+
+                        <a href="https://eyelinestudios.com/en/labs" target="_blank">
+                            <img src="static/images/labs_logo.png" alt="Eyeline Labs" style="height: 50px;">
+                        </a>
+
+                        <!-- Links -->
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <span class="link-block">
+                                    <a href="static/pdfs/Siggraph2026_BodyRelux.pdf" target="_blank"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+
+                                <span class="link-block">
+                                    <a href="#" target="_blank"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon"><i class="ai ai-arxiv"></i></span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <!-- Main video -->
+                        <video poster="" id="main-video" autoplay controls muted loop width="100%">
+                            <source src="BodyRelux.v3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Title / Hero -->
+
+    <!-- Abstract -->
+    <section class="section hero is-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            Being able to relight human performance is a fundamental task for post production and content
+                            creation. We present <strong>BodyReLux</strong>, a subject-specific video diffusion-based
+                            framework for relighting full-body human performances in a temporally consistent way. Our
+                            model is trained on a hybrid dataset of pixel-aligned video relighting pairs, covering a
+                            diverse combination of lighting conditions, performances and viewpoints. To acquire such
+                            dataset, we combine traditional static One-Light-at-a-Time (OLAT) capture and a novel
+                            dynamic performance capture in which two smoothly varying lighting sequences are rapidly
+                            interleaved. Because the lighting operates above the human flicker-fusion threshold, the
+                            interleaving does not appear to strobe. We train our video relighting model from a pretrained
+                            text-to-video model to fully leverage the generative priors for producing high quality
+                            videos. To achieve accurate lighting control, we introduce a new lighting conditioning
+                            method that represents each light source as a token. We further condition on sequences of
+                            lighting using masked attention to support dynamic lighting control. Together with a
+                            carefully designed data augmentation pipeline, we achieve photorealistic, robust, and
+                            temporally consistent video relighting of subject-specific human performances.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Abstract -->
+
+
+    <!-- Method Overview -->
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <h2 class="title is-4">Method Overview</h2>
+            </div>
+            <br>
+            <div class="content has-text-justified">
+                <p>
+                    We capture static OLAT data and bi-packed video data of a subject moving inside a large LED
+                    sphere, resulting in a dataset of video relighting training tuples consisting of two
+                    pixel-aligned videos under different lighting conditions and the corresponding lighting
+                    sequences. We train a video diffusion model with a novel lighting conditioning module that
+                    supports dynamic lighting control.
+                </p>
+            </div>
+            <br>
+            <img src="overview.jpg" alt="Method overview — data capture pipeline, OLAToken conditioning, Video DiT, and dynamic lighting attention module." style="width: 100%;">
+        </div>
+    </section>
+    <!-- End Method Overview -->
+
+    <!-- Data Capture -->
+    <section class="section hero is-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <h2 class="title is-4">Data Capture</h2>
+            </div>
+            <br>
+            <div class="content has-text-justified">
+                <p>
+                    Our hybrid dataset combines two complementary capture strategies: (1) static OLAT images
+                    providing highly controllable illumination, and (2) dynamic bi-pack video sequences with
+                    smoothly varying paired lighting conditions. The bi-pack approach rapidly interleaves two
+                    lighting patterns above the human flicker-fusion threshold, enabling comfortable capture
+                    without strobing while producing pixel-aligned video relighting pairs.
+                </p>
+            </div>
+            <br>
+            <div class="comparison-grid" style="width: 50%; margin: 0 auto; gap: 5rem;">
+                <div>
+                    <h5 class="has-text-centered">Static OLAT Capture</h5>
+                    <video autoplay muted loop playsinline width="100%">
+                        <source src="olat.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div>
+                    <h5 class="has-text-centered">Dynamic Bi-Pack Capture</h5>
+                    <video autoplay muted loop playsinline width="100%">
+                        <source src="bipack.mov" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Data Capture -->
+
+
+    <!-- Results -->
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <h2 class="title is-4">Results</h2>
+            </div>
+            <br>
+
+            <!-- Example selector -->
+            <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+                <label for="results-example-select" style="font-weight: 600; margin-right: 0.5rem;">Example:</label>
+                <div class="select">
+                    <select id="results-example-select">
+                        <option value="Erik_sittalk">Example 1</option>
+                        <option value="Erik_bottom">Example 2</option>
+                        <option value="pablo_turnback">Example 3</option>
+                        <option value="two_actor">Example 4</option>
+                        <option value="anica_sitsofa">Example 5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Lighting selector (HDRI thumbnails) -->
+            <div id="results-lighting-bar" class="has-text-centered" style="margin-bottom: 1.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem;">
+            </div>
+
+            <!-- Video container -->
+            <div id="results-video-container" style="position: relative; width: 100%; margin: 0 auto;">
+            </div>
+
+            <!-- Playback controls -->
+            <div id="results-controls" style="margin: 0.75rem auto 0; display: flex; align-items: center; gap: 0.75rem;">
+                <button id="results-play-btn" class="button is-small is-rounded" style="min-width: 40px;">
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </button>
+                <input id="results-progress" type="range" min="0" max="1000" value="0" style="flex: 1; cursor: pointer;">
+                <span id="results-time" style="font-size: 0.85rem; min-width: 80px; text-align: right;">0:00 / 0:00</span>
+            </div>
+
+            <!-- Download status -->
+            <div id="results-download-status" style="margin: 0.4rem auto 0; font-size: 0.8rem; color: #888; text-align: center; display: none;"></div>
+        </div>
+    </section>
+    <!-- End Results -->
+
+    <script>
+    (function() {
+        const resultsData = {
+            "anica_sitsofa": [
+                { lighting: "input", video: "allresults/anica_sitsofa/Anica_sitsofa_input.mp4", hdri: null },
+                { lighting: "old_hall_1k", video: "allresults/anica_sitsofa/Anica_sitsofa_old_hall_1k.mp4", hdri: "hdris_jpg/old_hall_1k.jpg" },
+                { lighting: "roadandmagenta", video: "allresults/anica_sitsofa/Anica_sitsofa_roadandmagenta.mp4", hdri: "hdris_jpg/roadandmagenta.jpg" },
+                { lighting: "rooftop_night_1k", video: "allresults/anica_sitsofa/Anica_sitsofa_rooftop_night_1k.mp4", hdri: "hdris_jpg/rooftop_night_1k.jpg" },
+                { lighting: "studio_small_04_1k", video: "allresults/anica_sitsofa/Anica_sitsofa_studio_small_04_1k.mp4", hdri: "hdris_jpg/studio_small_04_1k.jpg" },
+                { lighting: "threelights", video: "allresults/anica_sitsofa/Anica_sitsofa_threelights.mp4", hdri: "hdris_jpg/threelights.jpg" }
+            ],
+            "Erik_sittalk": [
+                { lighting: "input", video: "allresults/Erik_sittalk/Erik_sittalk_input.mp4", hdri: null },
+                { lighting: "medow_2_1k_rot1", video: "allresults/Erik_sittalk/Erik_sittalk_medow_2_1k_rot1.mp4", hdri: "hdris_jpg/medow_2_1k_rot1.jpg" },
+                { lighting: "olatmix_lorange_rred", video: "allresults/Erik_sittalk/Erik_sittalk_olatmix_lorange_rred.mp4", hdri: "hdris_jpg/olatmix_lorange_rred.jpg" },
+                { lighting: "studio_small_04_1k", video: "allresults/Erik_sittalk/Erik_sittalk_studio_small_04_1k.mp4", hdri: "hdris_jpg/studio_small_04_1k.jpg" },
+                { lighting: "threelights", video: "allresults/Erik_sittalk/Erik_sittalk_threelights.mp4", hdri: "hdris_jpg/threelights.jpg" }
+            ],
+            "Erik_bottom": [
+                { lighting: "input", video: "allresults/Erik_bottom/Erik_bottomup_input.mp4", hdri: null },
+                { lighting: "blaubeuren_night_1k", video: "allresults/Erik_bottom/Erik_bottomup_blaubeuren_night_1k.mp4", hdri: "hdris_jpg/blaubeuren_night_1k.jpg" },
+                { lighting: "lblurrred", video: "allresults/Erik_bottom/Erik_bottomup_lblurrred.mp4", hdri: "hdris_jpg/lblurrred.jpg" },
+                { lighting: "little_paris_under_tower_1k", video: "allresults/Erik_bottom/Erik_bottomup_little_paris_under_tower_1k.mp4", hdri: "hdris_jpg/little_paris_under_tower_1k.jpg" },
+                { lighting: "medow_2_1k_rot1", video: "allresults/Erik_bottom/Erik_bottomup_medow_2_1k_rot1.mp4", hdri: "hdris_jpg/medow_2_1k_rot1.jpg" },
+                { lighting: "olat_left_back_up", video: "allresults/Erik_bottom/Erik_bottomup_olat_left_back_up.mp4", hdri: "hdris_jpg/olat_left_back_up.jpg" },
+                { lighting: "radkow_lake_1k", video: "allresults/Erik_bottom/Erik_bottomup_radkow_lake_1k.mp4", hdri: "hdris_jpg/radkow_lake_1k.jpg" },
+                { lighting: "studio_small_02_1k", video: "allresults/Erik_bottom/Erik_bottomup_studio_small_02_1k.mp4", hdri: "hdris_jpg/studio_small_02_1k.jpg" }
+            ],
+            "pablo_turnback": [
+                { lighting: "input", video: "allresults/pablo_turnback/Pablo_turnback_input.mp4", hdri: null },
+                { lighting: "lblurrred", video: "allresults/pablo_turnback/Pablo_turnback_lblurrred.mp4", hdri: "hdris_jpg/lblurrred.jpg" },
+                { lighting: "olat_left_back_up", video: "allresults/pablo_turnback/Pablo_turnback_olat_left_back_up.mp4", hdri: "hdris_jpg/olat_left_back_up.jpg" },
+                { lighting: "rgbstribes", video: "allresults/pablo_turnback/Pablo_turnback_rgbstribes.mp4", hdri: "hdris_jpg/rgbstribes.jpg" },
+                { lighting: "studio_small_04_1k", video: "allresults/pablo_turnback/Pablo_turnback_studio_small_04_1k.mp4", hdri: "hdris_jpg/studio_small_04_1k.jpg" },
+                { lighting: "vestibule_1k", video: "allresults/pablo_turnback/Pablo_turnback_vestibule_1k.mp4", hdri: "hdris_jpg/vestibule_1k.jpg" }
+            ],
+            "two_actor": [
+                { lighting: "input", video: "allresults/two_actor/twoactor_stand_input.mp4", hdri: null },
+                { lighting: "blaubeuren_night_1k", video: "allresults/two_actor/twoactor_stand_blaubeuren_night_1k.mp4", hdri: "hdris_jpg/blaubeuren_night_1k.jpg" },
+                { lighting: "greenwich_park_1k_rot", video: "allresults/two_actor/twoactor_stand_greenwich_park_1k_rot.mp4", hdri: "hdris_jpg/greenwich_park_1k_rot.jpg" },
+                { lighting: "lblurrred", video: "allresults/two_actor/twoactor_stand_lblurrred.mp4", hdri: "hdris_jpg/lblurrred.jpg" },
+                { lighting: "medow_2_1k_rot1", video: "allresults/two_actor/twoactor_stand_medow_2_1k_rot1.mp4", hdri: "hdris_jpg/medow_2_1k_rot1.jpg" },
+                { lighting: "rooftop_night_1k", video: "allresults/two_actor/twoactor_stand_rooftop_night_1k.mp4", hdri: "hdris_jpg/rooftop_night_1k.jpg" },
+                { lighting: "toplight", video: "allresults/two_actor/twoactor_stand_toplight.mp4", hdri: "hdris_jpg/toplight.jpg" },
+                { lighting: "vestibule_1k", video: "allresults/two_actor/twoactor_stand_vestibule_1k.mp4", hdri: "hdris_jpg/vestibule_1k.jpg" }
+            ]
+        };
+
+        const select = document.getElementById('results-example-select');
+        const lightingBar = document.getElementById('results-lighting-bar');
+        const videoContainer = document.getElementById('results-video-container');
+        const controlsBar = document.getElementById('results-controls');
+        const playBtn = document.getElementById('results-play-btn');
+        const progress = document.getElementById('results-progress');
+        const timeDisplay = document.getElementById('results-time');
+        const downloadStatus = document.getElementById('results-download-status');
+
+        // Portrait videos: cap height to the container's full text width so they
+        // don't render absurdly tall. Landscape videos keep filling the container width.
+        function sizeResultsBlock(vid) {
+            if (!vid || !vid.videoWidth || !vid.videoHeight) return;
+            const ratio = vid.videoWidth / vid.videoHeight;
+            if (ratio >= 1) {
+                videoContainer.style.maxWidth = '';
+                controlsBar.style.maxWidth = '';
+                return;
+            }
+            const parentWidth = videoContainer.parentElement.clientWidth;
+            const targetWidth = parentWidth * ratio;
+            videoContainer.style.maxWidth = targetWidth + 'px';
+            controlsBar.style.maxWidth = targetWidth + 'px';
+        }
+
+        let currentExample = 'Erik_sittalk';
+        let currentLighting = 'input';
+        let isPlaying = false;
+        let isSeeking = false;
+        let videoElements = {};
+        let downloadedSet = new Set();
+        let totalToDownload = 0;
+
+        function updateDownloadStatus() {
+            if (totalToDownload === 0) {
+                downloadStatus.style.display = 'none';
+                return;
+            }
+            if (downloadedSet.size >= totalToDownload) {
+                downloadStatus.style.display = 'none';
+            } else {
+                downloadStatus.style.display = 'block';
+                downloadStatus.textContent = 'Downloaded videos ' + downloadedSet.size + '/' + totalToDownload;
+            }
+        }
+
+        function formatTime(t) {
+            if (isNaN(t)) return '0:00';
+            const m = Math.floor(t / 60);
+            const s = Math.floor(t % 60);
+            return m + ':' + String(s).padStart(2, '0');
+        }
+
+        function buildExample(exampleKey) {
+            // Pause old videos
+            Object.values(videoElements).forEach(v => { v.pause(); v.remove(); });
+            videoElements = {};
+
+            const items = resultsData[exampleKey];
+            downloadedSet = new Set();
+            totalToDownload = items.length;
+            updateDownloadStatus();
+            items.forEach(item => {
+                const vid = document.createElement('video');
+                vid.preload = 'auto';
+                vid.muted = true;
+                vid.playsInline = true;
+                vid.style.width = '100%';
+                vid.style.display = 'none';
+                vid.innerHTML = '<source src="' + item.video + '" type="video/mp4">';
+                vid.addEventListener('ended', () => {
+                    Object.values(videoElements).forEach(v => { v.currentTime = 0; });
+                    if (isPlaying) Object.values(videoElements).forEach(v => v.play());
+                });
+                vid.addEventListener('loadedmetadata', () => sizeResultsBlock(vid));
+                vid.addEventListener('canplaythrough', () => {
+                    downloadedSet.add(item.lighting);
+                    updateDownloadStatus();
+                });
+                videoContainer.appendChild(vid);
+                videoElements[item.lighting] = vid;
+            });
+
+            // Build lighting buttons
+            lightingBar.innerHTML = '';
+            items.forEach((item, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'results-lighting-btn' + (idx === 0 ? ' active' : '');
+                btn.dataset.lighting = item.lighting;
+                btn.style.cssText = 'cursor:pointer; border:3px solid transparent; border-radius:6px; overflow:hidden; width:60px; height:30px; display:flex; align-items:center; justify-content:center; background:#eee; flex-shrink:0;';
+                if (item.hdri) {
+                    const img = document.createElement('img');
+                    img.src = item.hdri;
+                    img.alt = item.lighting;
+                    img.style.cssText = 'width:100%; height:100%; object-fit:cover;';
+                    btn.appendChild(img);
+                } else {
+                    btn.innerHTML = '<span style="font-size:11px; font-weight:600;">Input</span>';
+                }
+                btn.addEventListener('click', () => {
+                    switchLighting(item.lighting);
+                    lightingBar.querySelectorAll('.results-lighting-btn').forEach(b => {
+                        b.style.borderColor = 'transparent';
+                    });
+                    btn.style.borderColor = '#363636';
+                });
+                lightingBar.appendChild(btn);
+            });
+
+            // Activate first button border
+            lightingBar.querySelector('.results-lighting-btn').style.borderColor = '#363636';
+
+            currentLighting = items[0].lighting;
+            updateDisplay();
+            isPlaying = true;
+            Object.values(videoElements).forEach(v => v.play());
+            updateControls();
+        }
+
+        function switchLighting(lighting) {
+            const wasPlaying = isPlaying;
+            const oldVid = videoElements[currentLighting];
+            const oldTime = oldVid ? oldVid.currentTime : 0;
+
+            currentLighting = lighting;
+            const newVid = videoElements[currentLighting];
+            if (newVid) newVid.currentTime = oldTime;
+
+            updateDisplay();
+            if (wasPlaying) {
+                Object.values(videoElements).forEach(v => v.play());
+                isPlaying = true;
+            }
+            updateControls();
+        }
+
+        function updateDisplay() {
+            Object.entries(videoElements).forEach(([key, vid]) => {
+                vid.style.display = key === currentLighting ? 'block' : 'none';
+            });
+        }
+
+        function updateControls() {
+            const av = videoElements[currentLighting];
+            if (!av) return;
+            if (!isSeeking) {
+                const frac = av.duration ? (av.currentTime / av.duration) * 1000 : 0;
+                progress.value = frac;
+            }
+            timeDisplay.textContent = formatTime(av.currentTime) + ' / ' + formatTime(av.duration);
+            playBtn.querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        }
+
+        select.addEventListener('change', () => {
+            Object.values(videoElements).forEach(v => v.pause());
+            isPlaying = false;
+            currentExample = select.value;
+            buildExample(currentExample);
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                Object.values(videoElements).forEach(v => v.pause());
+                isPlaying = false;
+            } else {
+                Object.values(videoElements).forEach(v => v.play());
+                isPlaying = true;
+            }
+            updateControls();
+        });
+
+        progress.addEventListener('input', () => {
+            isSeeking = true;
+            const av = videoElements[currentLighting];
+            if (av && av.duration) {
+                const t = (progress.value / 1000) * av.duration;
+                Object.values(videoElements).forEach(v => { v.currentTime = t; });
+            }
+            updateControls();
+        });
+        progress.addEventListener('change', () => { isSeeking = false; });
+
+        function tick() {
+            if (!isSeeking) {
+                // Sync all to active
+                const av = videoElements[currentLighting];
+                if (av) {
+                    const t = av.currentTime;
+                    Object.values(videoElements).forEach(v => {
+                        if (v !== av && Math.abs(v.currentTime - t) > 0.05) v.currentTime = t;
+                    });
+                }
+                updateControls();
+            }
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        window.addEventListener('resize', () => {
+            const vid = videoElements[currentLighting] || Object.values(videoElements).find(v => v.videoWidth);
+            if (vid) sizeResultsBlock(vid);
+        });
+
+        // Init
+        buildExample(currentExample);
+    })();
+    </script>
+
+    <!-- Comparisons -->
+    <section class="section hero is-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <h2 class="title is-4">Comparisons</h2>
+            </div>
+            <br>
+
+            <!-- Example selector -->
+            <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+                <label for="example-select" style="font-weight: 600; margin-right: 0.5rem;">Example:</label>
+                <div class="select">
+                    <select id="example-select">
+                        <option value="anica">Example 1</option>
+                        <option value="erik">Example 2</option>
+                        <option value="pablo">Example 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Method buttons -->
+            <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+                <button class="button is-dark method-btn is-active" data-method="input">Input</button>
+                <button class="button is-light method-btn" data-method="ours">Ours</button>
+                <button class="button is-light method-btn" data-method="diffrelight">DiffRelight</button>
+                <button class="button is-light method-btn" data-method="beeble">Beeble</button>
+            </div>
+
+            <!-- Video container — all videos stacked, only one visible -->
+            <div id="comparison-video-container" style="position: relative; width: 100%; margin: 0 auto;">
+                <!-- Anica -->
+                <video class="comp-video" data-example="anica" data-method="input" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Anica_rothead_input.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="anica" data-method="ours" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Anica_rothead_toplight.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="anica" data-method="diffrelight" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Anica_rothead_toplight_diffrelight.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="anica" data-method="beeble" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Anica_rothead_with_toplight_beeble.mp4" type="video/mp4">
+                </video>
+                <!-- Erik -->
+                <video class="comp-video" data-example="erik" data-method="input" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Erik_talkzoom_input.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="erik" data-method="ours" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Erik_talkzoom_blueorangestribe.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="erik" data-method="diffrelight" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Erik_talkzoom_blueorangestribe_diffrelight.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="erik" data-method="beeble" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Erik_talkzoom_with_blueorangestribe_beeble.mp4" type="video/mp4">
+                </video>
+                <!-- Pablo -->
+                <video class="comp-video" data-example="pablo" data-method="input" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Pablo_exercise_input.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="pablo" data-method="ours" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Pablo_exercise_greenwich_park_1k_rot.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="pablo" data-method="diffrelight" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Pablo_exercise_greenwich_park_1k_rot_diffrelight.mp4" type="video/mp4">
+                </video>
+                <video class="comp-video" data-example="pablo" data-method="beeble" preload="auto" muted playsinline style="width:100%; display:none;">
+                    <source src="comparison_inthewild/Pablo_exercise_with_greenwich_park_1k_rot_beeble.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Playback controls -->
+            <div id="comp-controls" style="margin: 0.75rem auto 0; display: flex; align-items: center; gap: 0.75rem;">
+                <button id="comp-play-btn" class="button is-small is-rounded" style="min-width: 40px;">
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </button>
+                <input id="comp-progress" type="range" min="0" max="1000" value="0" style="flex: 1; cursor: pointer;">
+                <span id="comp-time" style="font-size: 0.85rem; min-width: 80px; text-align: right;">0:00 / 0:00</span>
+            </div>
+
+            <!-- Download status -->
+            <div id="comp-download-status" style="margin: 0.4rem auto 0; font-size: 0.8rem; color: #888; text-align: center; display: none;"></div>
+        </div>
+    </section>
+    <!-- End Comparisons -->
+
+    <script>
+    (function() {
+        const videos = document.querySelectorAll('.comp-video');
+        const select = document.getElementById('example-select');
+        const buttons = document.querySelectorAll('.method-btn');
+        const playBtn = document.getElementById('comp-play-btn');
+        const progress = document.getElementById('comp-progress');
+        const timeDisplay = document.getElementById('comp-time');
+        const compContainer = document.getElementById('comparison-video-container');
+        const compControls = document.getElementById('comp-controls');
+        const compDownloadStatus = document.getElementById('comp-download-status');
+
+        let currentExample = 'anica';
+        let currentMethod = 'input';
+        let isPlaying = false;
+        let isSeeking = false;
+        const downloadedVideos = new WeakSet();
+
+        function updateCompDownloadStatus() {
+            const exampleVids = getExampleVideos(currentExample);
+            const total = exampleVids.length;
+            let loaded = 0;
+            exampleVids.forEach(v => { if (downloadedVideos.has(v)) loaded++; });
+            if (total === 0 || loaded >= total) {
+                compDownloadStatus.style.display = 'none';
+            } else {
+                compDownloadStatus.style.display = 'block';
+                compDownloadStatus.textContent = 'Downloaded videos ' + loaded + '/' + total;
+            }
+        }
+
+        function sizeComparisonBlock(vid) {
+            if (!vid || !vid.videoWidth || !vid.videoHeight) return;
+            const ratio = vid.videoWidth / vid.videoHeight;
+            if (ratio >= 1) {
+                compContainer.style.maxWidth = '';
+                compControls.style.maxWidth = '';
+                return;
+            }
+            const parentWidth = compContainer.parentElement.clientWidth;
+            const targetWidth = parentWidth * ratio;
+            compContainer.style.maxWidth = targetWidth + 'px';
+            compControls.style.maxWidth = targetWidth + 'px';
+        }
+
+        function getVideo(example, method) {
+            return document.querySelector(`.comp-video[data-example="${example}"][data-method="${method}"]`);
+        }
+
+        function getExampleVideos(example) {
+            return document.querySelectorAll(`.comp-video[data-example="${example}"]`);
+        }
+
+        function activeVideo() {
+            return getVideo(currentExample, currentMethod);
+        }
+
+        function formatTime(t) {
+            if (isNaN(t)) return '0:00';
+            const m = Math.floor(t / 60);
+            const s = Math.floor(t % 60);
+            return m + ':' + String(s).padStart(2, '0');
+        }
+
+        function syncAllToActive() {
+            const av = activeVideo();
+            if (!av) return;
+            const t = av.currentTime;
+            getExampleVideos(currentExample).forEach(v => {
+                if (v !== av && Math.abs(v.currentTime - t) > 0.05) {
+                    v.currentTime = t;
+                }
+            });
+        }
+
+        function updateDisplay() {
+            videos.forEach(v => { v.style.display = 'none'; });
+            const av = activeVideo();
+            if (av) av.style.display = 'block';
+        }
+
+        function updateControls() {
+            const av = activeVideo();
+            if (!av) return;
+            if (!isSeeking) {
+                const frac = av.duration ? (av.currentTime / av.duration) * 1000 : 0;
+                progress.value = frac;
+            }
+            timeDisplay.textContent = formatTime(av.currentTime) + ' / ' + formatTime(av.duration);
+            playBtn.querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        }
+
+        function playAll() {
+            getExampleVideos(currentExample).forEach(v => v.play());
+            isPlaying = true;
+        }
+
+        function pauseAll() {
+            getExampleVideos(currentExample).forEach(v => v.pause());
+            isPlaying = false;
+        }
+
+        function seekAll(fraction) {
+            const av = activeVideo();
+            if (!av || !av.duration) return;
+            const t = fraction * av.duration;
+            getExampleVideos(currentExample).forEach(v => { v.currentTime = t; });
+        }
+
+        // Method buttons
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const wasPlaying = isPlaying;
+                pauseAll();
+                const oldVideo = activeVideo();
+                const oldTime = oldVideo ? oldVideo.currentTime : 0;
+
+                currentMethod = btn.dataset.method;
+                buttons.forEach(b => { b.classList.remove('is-dark', 'is-active'); b.classList.add('is-light'); });
+                btn.classList.remove('is-light'); btn.classList.add('is-dark', 'is-active');
+
+                // Sync new active to old time
+                const newVideo = activeVideo();
+                if (newVideo) newVideo.currentTime = oldTime;
+
+                updateDisplay();
+                if (wasPlaying) playAll();
+                updateControls();
+            });
+        });
+
+        // Example dropdown
+        select.addEventListener('change', () => {
+            pauseAll();
+            currentExample = select.value;
+            // Reset all videos of new example to start
+            getExampleVideos(currentExample).forEach(v => { v.currentTime = 0; });
+            updateDisplay();
+            updateControls();
+            updateCompDownloadStatus();
+            const sizingVid = Array.from(getExampleVideos(currentExample)).find(v => v.videoWidth);
+            if (sizingVid) sizeComparisonBlock(sizingVid);
+        });
+
+        // Play/pause
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) pauseAll(); else playAll();
+            updateControls();
+        });
+
+        // Progress bar
+        progress.addEventListener('input', () => {
+            isSeeking = true;
+            seekAll(progress.value / 1000);
+            updateControls();
+        });
+        progress.addEventListener('change', () => { isSeeking = false; });
+
+        // Time update loop
+        function tick() {
+            if (!isSeeking) {
+                syncAllToActive();
+                updateControls();
+            }
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        // Loop: restart all when active video ends
+        videos.forEach(v => {
+            v.addEventListener('ended', () => {
+                getExampleVideos(currentExample).forEach(vid => { vid.currentTime = 0; });
+                if (isPlaying) playAll();
+            });
+            v.addEventListener('loadedmetadata', () => {
+                if (v.dataset.example === currentExample) sizeComparisonBlock(v);
+            });
+            v.addEventListener('canplaythrough', () => {
+                downloadedVideos.add(v);
+                if (v.dataset.example === currentExample) updateCompDownloadStatus();
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            const av = activeVideo();
+            if (av && av.videoWidth) sizeComparisonBlock(av);
+        });
+
+        // Init
+        updateDisplay();
+        playAll();
+        updateControls();
+        updateCompDownloadStatus();
+    })();
+    </script>
+
+    <!-- BibTeX -->
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre><code>@inproceedings{bodyrelux2026,
+    title     = {BodyReLux: Temporally Consistent Full-Body Video Relighting},
+    author    = {Ma, Li and He, Mingming and Yu, Xueming and George, David and Tasel, Ahmet and Debevec, Paul and Philip, Julien},
+    booktitle = {SIGGRAPH 2026 Conference Papers},
+    year      = {2026},
+    publisher = {ACM},
+    address   = {New York, NY, USA},
+}</code></pre>
+        </div>
+    </section>
+    <!-- End BibTeX -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content" style="text-align: center;">
+                        <p>
+                            This page was built using the
+                            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                                target="_blank">Academic Project Page Template</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
